@@ -1,0 +1,135 @@
+
+Compiler('Compiler-GCC') {
+	.Executable = '/usr/local/bin/gcc'
+}
+
+Compiler('Compiler-Clang') {
+	.Executable = '/usr/bin/clang'
+}
+
+// GCC - Linux x64 Build
+// ----------------------------------------------------------------------------
+.GCC_BaseConfig = [
+	.Compiler  = 'Compiler-GCC'
+	.Librarian = '/usr/bin/ar'
+	.Linker    = '/usr/local/bin/g++'
+	.BaseCompilerOptions = '-o "%2" "%1" -c -g'
+		+ ' -I./'
+		+ ' -D__LINUX__ -D__linux__'
+		+ ' -Wall -Wextra' // -Wpedantic'
+		//+ ' -Werror -Wfatal-errors'
+		+ ' -m64'            // x86-64
+	.CompilerOptionsC   = ' -std=c11'   // allow C11 features
+	.CompilerOptionsCpp = ' -std=c++11' // allow C++11 features
+		+ ' -fno-exceptions' // Disables exceptions
+		+ ' -fno-rtti'       // Disable RTTI (Run Time Type Identification)
+	.CompilerOptions    = .BaseCompilerOptions
+		// Disabled warnings
+		//+ ' -Wno-invalid-offsetof'	// we get the offset of members in non-POD types
+	.LinkerOptions    = '"%1" -o "%2"'
+	.LibrarianOptions = 'rcs "%2" "%1"'
+	.CompilerDebugOptimizations     = ' -O0'
+	.CompilerReleaseOptimizations   = ' -O3'
+	.LibrarianDebugOptimizations    = ''
+	.LibrarianReleaseOptimizations  = ''
+	.LinkerDebugOptimizations       = ''
+	.LinkerReleaseOptimizations     = ''
+]
+.GCC_x64_BaseConfig = [
+	Using(.GCC_BaseConfig)
+	.PlatformInfo   = 'Linux'
+	.ArchInfo       = 'x64'
+	.CompilerInfo   = 'GCC'
+]
+.GCC_x64_DebugConfig = [
+	Using(.GCC_x64_BaseConfig)
+	.Config           = 'Debug'
+	.CompilerOptions  + ' -DDEBUG -DPROFILING_ENABLED'
+		+ .CompilerDebugOptimizations
+	.LibrarianOptions + .LibrarianDebugOptimizations
+	.LinkerOptions    + .LinkerDebugOptimizations
+]
+.GCC_x64_ReleaseConfig = [
+	Using(.GCC_x64_BaseConfig)
+	.Config           = 'Release'
+	.CompilerOptions  + ' -DRELEASE'
+		+ .CompilerReleaseOptimizations
+	.LibrarianOptions + .LibrarianReleaseOptimizations
+	.LinkerOptions    + .LinkerReleaseOptimizations
+]
+.GCC_x64_ProfileConfig = [
+	Using(.GCC_x64_ReleaseConfig)
+	.Config          = 'Profile'
+	.CompilerOptions + ' -DPROFILING_ENABLED'
+]
+
+// Clang - Linux x64 Build
+// ----------------------------------------------------------------------------
+.Clang_BaseConfig = [
+	.Compiler  = 'Compiler-Clang'
+	.Librarian = '/usr/bin/ar'
+	.Linker    = '/usr/bin/clang'
+	.BaseCompilerOptions = '-o "%2" "%1" -c -g'
+		+ ' -I./'
+		+ ' -D__LINUX__ -D__linux__'
+		+ ' -Wall -Wextra' // -Wpedantic'
+		//+ ' -Werror -Wfatal-errors'
+		+ ' -m64'            // x86-64
+	.CompilerOptionsC   = ' -std=c11'   // allow C11 features
+	.CompilerOptionsCpp = ' -std=c++11' // allow C++11 features
+		+ ' -fno-exceptions' // Disables exceptions
+		+ ' -fno-rtti'       // Disable RTTI (Run Time Type Identification)
+	.CompilerOptions    = .BaseCompilerOptions
+		// Disabled warnings
+		//+ ' -Wno-invalid-offsetof' // we get the offset of members in non-POD types
+		+ ' -fno-strict-aliasing'    // Disable strict aliasing
+	.LinkerOptions    = '"%1" -o "%2"'
+	.LibrarianOptions = 'rcs "%2" "%1"'
+	.CompilerDebugOptimizations     = ' -O0'
+	.CompilerReleaseOptimizations   = ' -O3'
+	.LibrarianDebugOptimizations    = ''
+	.LibrarianReleaseOptimizations  = ''
+	.LinkerDebugOptimizations       = ''
+	.LinkerReleaseOptimizations     = ''
+]
+.Clang_x64_BaseConfig = [
+	Using(.Clang_BaseConfig)
+	.PlatformInfo   = 'Linux'
+	.ArchInfo       = 'x64'
+	.CompilerInfo   = 'Clang'
+]
+.Clang_x64_DebugConfig = [
+	Using(.Clang_x64_BaseConfig)
+	.Config           = 'Debug'
+	.CompilerOptions  + ' -DDEBUG -DPROFILING_ENABLED'
+		+ .CompilerDebugOptimizations
+	.LibrarianOptions + .LibrarianDebugOptimizations
+	.LinkerOptions    + .LinkerDebugOptimizations
+]
+.Clang_x64_ReleaseConfig = [
+	Using(.Clang_x64_BaseConfig)
+	.Config           = 'Release'
+	.CompilerOptions  + ' -DRELEASE'
+		+ .CompilerReleaseOptimizations
+	.LibrarianOptions + .LibrarianReleaseOptimizations
+	.LinkerOptions    + .LinkerReleaseOptimizations
+]
+.Clang_x64_ProfileConfig = [
+	Using(.Clang_x64_ReleaseConfig)
+	.Config          = 'Profile'
+	.CompilerOptions + ' -DPROFILING_ENABLED'
+]
+
+.Configs = {
+	.GCC_x64_DebugConfig,      .GCC_x64_ProfileConfig,      .GCC_x64_ReleaseConfig,
+	.Clang_x64_DebugConfig,    .Clang_x64_ProfileConfig,    .Clang_x64_ReleaseConfig
+}
+
+.Configs_Linux_GCC = {
+	.GCC_x64_DebugConfig, .GCC_x64_ProfileConfig, .GCC_x64_ReleaseConfig
+}
+
+.Configs_Linux_Clang = {
+	.Clang_x64_DebugConfig, .Clang_x64_ProfileConfig, .Clang_x64_ReleaseConfig
+}
+

@@ -1,0 +1,26 @@
+#include "conf/linux-compiler.bff"
+
+Using(.GCC_x64_ReleaseConfig)
+
+Library( 'Test-lib' )
+{
+  .CompilerInputPath = '.'
+  .CompilerOutputPath = './out/'
+  .LibrarianOutput = './out/Test.lib'
+}
+
+Executable( 'Test-exe' )
+{
+  .Libraries = { 'Test-lib' }
+  .LinkerOutput = './out/Test'
+}
+
+RemoveDir( 'clean' )
+{
+  .RemovePaths = './out'
+}
+
+Alias( 'all' )
+{
+  .Targets = { 'Test-exe' }
+}
