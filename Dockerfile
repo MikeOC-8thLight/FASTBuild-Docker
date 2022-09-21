@@ -14,8 +14,8 @@ RUN chmod -R 665 /usr/local/bin/fbuild
 
 # These commands copy your files into the specified directory in the image
 # and set that as the working location
-COPY . /usr/src/hytales
-WORKDIR /usr/src/hytales
+COPY . /usr/src/test
+WORKDIR /usr/src/test
 
 CMD ["./build-and-run.sh"]
 
