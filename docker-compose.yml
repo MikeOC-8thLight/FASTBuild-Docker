@@ -8,5 +8,5 @@ services:
     stdin_open: true 
     tty: true   
     volumes:
-      - '.:/usr/src/hytales:rw'
+      - '.:/usr/src/test:rw'
     command: /bin/bash
