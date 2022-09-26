@@ -1,6 +1,6 @@
 
 Compiler('Compiler-GCC') {
-	.Executable = '/usr/local/bin/gcc'
+	.Executable = '/usr/local/bin/x86_64-linux-gnu-g++'
 }
 
 Compiler('Compiler-Clang') {
@@ -11,15 +11,16 @@ Compiler('Compiler-Clang') {
 // ----------------------------------------------------------------------------
 .GCC_BaseConfig = [
 	.Compiler  = 'Compiler-GCC'
-	.Librarian = '/usr/bin/ar'
-	.Linker    = '/usr/local/bin/g++'
-	.BaseCompilerOptions = '-o "%2" "%1" -c -g'
+	.Librarian = '/usr/local/bin/x86_64-linux-gnu-gcc-ar'
+	.Linker    = '/usr/local/bin/x86_64-linux-gnu-g++'
+	.BaseCompilerOptions = '-v -o "%2" "%1" -c -g'
 		+ ' -I./'
 		+ ' -D__LINUX__ -D__linux__'
 		+ ' -Wall -Wextra' // -Wpedantic'
 		//+ ' -Werror -Wfatal-errors'
 		+ ' -m64'            // x86-64
-	.CompilerOptionsC   = ' -std=c11'   // allow C11 features
+		+ ' -B /usr/local/libexec/gcc/x86_64-linux-gnu/12.2.0/ -B /usr/bin/' 
+	.CompilerOptionsC   = ' -std=c11'   // allow C11 features 
 	.CompilerOptionsCpp = ' -std=c++11' // allow C++11 features
 		+ ' -fno-exceptions' // Disables exceptions
 		+ ' -fno-rtti'       // Disable RTTI (Run Time Type Identification)

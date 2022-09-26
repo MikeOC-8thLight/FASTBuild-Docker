@@ -1,6 +1,6 @@
 #include "conf/linux-compiler.bff"
 
-Using(.GCC_x64_ReleaseConfig)
+Using(.GCC_x64_DebugConfig)
 
 Library( 'Test-lib' )
 {

@@ -1,12 +1,25 @@
 version: '3.4'
 
 services:
-  fastbuild:
+  fbuild:
     build:
         context: .
         dockerfile: ./Dockerfile
     stdin_open: true 
     tty: true   
     volumes:
-      - '.:/usr/src/test:rw'
-    command: /bin/bash
+      - '.:/usr/src/fbuild:rw'
+      - './fbuild-brokerage:/usr/share/fbuild-brokerage:rw'
+    command: bash
+    depends_on: 
+      - fbuild-worker
+
+  fbuild-worker:
+    build:
+        context: .
+        dockerfile: ./worker.Dockerfile
+    stdin_open: true 
+    tty: true   
+    volumes:
+      - './fbuild-brokerage:/usr/share/fbuild-brokerage:rw'
+    # command: bash

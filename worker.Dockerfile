@@ -25,6 +25,6 @@ RUN mkdir -p /usr/src/fbuild
 WORKDIR /usr/src/fbuild
 
 ENV FASTBUILD_BROKERAGE_PATH=/usr/share/fbuild-brokerage
-CMD ["fbuild", "-dist", "-forceremote", "-progress", "-summary"]
+CMD ["fbuildworker"]
 
-LABEL Name=fbuild Version=0.0.1
+LABEL Name=fbuildworker Version=0.0.1
