@@ -20,6 +20,7 @@ services:
         dockerfile: ./worker.Dockerfile
     stdin_open: true 
     tty: true   
+    expose:
+      - "31264"
     volumes:
       - './fbuild-brokerage:/usr/share/fbuild-brokerage:rw'
-    # command: bash

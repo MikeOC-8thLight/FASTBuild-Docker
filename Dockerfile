@@ -10,7 +10,7 @@ RUN apt-get -y update && apt-get install -y
 RUN apt-get upgrade -y
 RUN apt-get install -y clang g++ build-essential g++-i686-linux-gnu
 
-# Check the build environment to match 
+# Check the build environment to match, check the corresponding library path in the compiler
 # arm64: g++-aarch64-linux-gnu
 # i686: g++-i686-linux-gnu
 

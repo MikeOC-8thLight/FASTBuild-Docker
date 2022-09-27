@@ -1,3 +1,4 @@
 out/
 *.fdb
 fbuild-brokerage/
+fbuild_profile.json
